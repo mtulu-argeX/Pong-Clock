@@ -14,7 +14,7 @@ State::State()
 , temperature(0)
 , mode24h(false)
 , dim(false)
-, current_face(0)
+, current_face(2)
 , enabled_faces(0xFF)
 , tetris_highscore(0)
 {

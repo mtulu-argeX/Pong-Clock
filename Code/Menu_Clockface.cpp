@@ -57,9 +57,9 @@ void ClockfaceMenu::changeMenu() {
     face = NULL;
   }
   switch(faceType) {
-  case FACE_PONG:
-    face = new ClockfacePong();
-    break;
+  //case FACE_PONG:
+      //face = new ClockfacePong();
+    //break;
   case FACE_DIGITAL:
     face = new ClockfaceDigital();
     break;

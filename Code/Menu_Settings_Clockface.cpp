@@ -57,9 +57,9 @@ void SettingsClockfaceMenu::draw(Adafruit_GFX* display) const {
         display->print(' ');
       }
       switch (i) {
-      case FACE_PONG:
-        display->print(F(" Pong"));
-        break;
+      //case FACE_PONG:
+        //display->print(F(" Pong"));
+        //break;
       case FACE_DIGITAL:
         display->print(F(" Digital"));
         break;

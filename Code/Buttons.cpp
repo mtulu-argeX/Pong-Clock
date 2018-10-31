@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "Buttons.h"
 
-#define LOCKOUT_TIME 30
+#define LOCKOUT_TIME 120
 
 Button::Button(uint8_t pin)
 : timer(0)
@@ -20,14 +20,14 @@ bool Button::update() {
   bool changed = false;
   noInterrupts();
   uint16_t now = millis();
-  if (state.stable == false && state.interrupt && now - timer > LOCKOUT_TIME) {
+  if (state.stable == false && now - timer > LOCKOUT_TIME) {
     changed = true;
     state.stable = true;
     timer = now;
   }
   state.interrupt = false;
   if (state.stable && now - timer > LOCKOUT_TIME) {
-    if (digitalRead(pin) == false) {
+    if (digitalRead(pin) == LOW) {
       state.stable = false;
       changed = true;
       timer = now;

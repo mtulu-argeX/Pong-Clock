@@ -28,10 +28,12 @@
 #include "Menu_Clockface.h"
 #include "State.h"
 
-#define NEXT_PIN   2
-#define SELECT_PIN 3
+#define NEXT_PIN   10
+#define SELECT_PIN 8
 
-#define OLED_RESET 4
+#define OLED_DC     A3
+#define OLED_CS     A5
+#define OLED_RESET  A4
 #define WIDTH      128
 #define HEIGHT     64
 
@@ -40,8 +42,14 @@
 
 Button btnNext(NEXT_PIN);
 Button btnSelect(SELECT_PIN);
-Adafruit_SSD1306 display(OLED_RESET);
+Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 RTC_DS1307 RTC;
+
+#define SSD1306_LCDHEIGHT 64
+
+#if (SSD1306_LCDHEIGHT != 64)
+#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+#endif
 
 void buttonNextPressed() {
   btnNext.interrupt();
@@ -57,9 +65,9 @@ void setup(void) {
   Serial.begin(9600);
   randomSeed(analogRead(A3));
   Wire.begin();
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3c);
+  display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
-  display.setRotation(2);
+  display.setRotation(0);
 
   // First time init, set to code compile date.
   if (!RTC.isrunning()) {
@@ -67,10 +75,10 @@ void setup(void) {
   }
 
   // Setup buttons
-  pinMode(NEXT_PIN, INPUT);
-  pinMode(SELECT_PIN, INPUT);
-  attachInterrupt(0, buttonSelectPressed, RISING);
-  attachInterrupt(1, buttonNextPressed, RISING);
+  pinMode(NEXT_PIN, INPUT_PULLUP);
+  pinMode(SELECT_PIN, INPUT_PULLUP);
+  //attachInterrupt(0, buttonSelectPressed, LOW);
+  //attachInterrupt(1, buttonNextPressed, LOW);
 
   // Splash
   display.setTextSize(2);
